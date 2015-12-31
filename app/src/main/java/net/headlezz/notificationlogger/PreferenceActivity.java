@@ -26,10 +26,7 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) == null) {
-            PreferenceFragment pf = new PreferenceFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_holder, pf)
-                    .commit();
+            showSettingsScreen();
         }
     }
 
@@ -54,5 +51,20 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
                 .replace(R.id.fragment_holder, new BlacklistFragment())
                 .addToBackStack("blacklist")
                 .commit();
+        getSupportActionBar().setTitle(getString(R.string.title_blacklist));
+    }
+
+    public void showSettingsScreen() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_holder, new PreferenceFragment())
+                .commit();
+        getSupportActionBar().setTitle(getString(R.string.title_settings));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0)
+            getSupportActionBar().setTitle(getString(R.string.title_settings));
+        super.onBackPressed();
     }
 }

@@ -44,7 +44,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mCallbacks = (PreferenceCallbacks) activity;
-        ((AppCompatActivity) activity).getSupportActionBar().setTitle("Settings");
     }
 
     @Override
