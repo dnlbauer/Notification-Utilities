@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="screen_notification_settings"
+        android:title="@string/pref_category_notification_settings">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_logging_enabled"
+            android:summary="@string/pref_logging_enabled_summary"
+            android:title="@string/pref_logging_enabled_title" />
+        <Preference
+            android:key="pref_blacklist"
+            android:summary="@string/pref_blacklist_summary"
+            android:title="@string/pref_blacklist_title" />
+        <Preference
+            android:key="pref_clear_database"
+            android:summary="@string/pref_clear_database_summary"
+            android:title="@string/pref_clear_database_title" />
+        <Preference
+            android:key="pref_export"
+            android:title="@string/pref_export_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="screen_support"
+        android:title="@string/pref_category_support">
+        <Preference
+            android:key="pref_about"
+            android:title="@string/pref_about_title" />
+    </PreferenceCategory>
+</PreferenceScreen>
