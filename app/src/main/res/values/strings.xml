@@ -13,4 +13,6 @@
     <string name="pref_clear_database_summary">Remove all logged notifications</string>
     <string name="pref_export_title">Export to sdcard</string>
     <string name="pref_about_title">About</string>
+    <string name="fab_cd_create_notification">FAB: Create notification</string>
+    <string name="title_create_notification">Create notification</string>
 </resources>
