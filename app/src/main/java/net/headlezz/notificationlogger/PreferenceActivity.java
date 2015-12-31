@@ -24,7 +24,6 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.title_settings);
 
         if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) == null) {
             PreferenceFragment pf = new PreferenceFragment();
@@ -34,6 +33,7 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
         }
     }
 
+    @Override
     public void showAboutScreen() {
         // TODO add other libraries
         LibsSupportFragment aboutFrag = new LibsBuilder()
@@ -45,6 +45,14 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_holder, aboutFrag)
                 .addToBackStack("about")
+                .commit();
+    }
+
+    @Override
+    public void showBlacklistScreen() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_holder, new BlacklistFragment())
+                .addToBackStack("blacklist")
                 .commit();
     }
 }
