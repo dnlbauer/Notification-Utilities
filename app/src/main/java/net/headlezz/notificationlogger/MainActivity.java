@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, PreferenceActivity.class);
             startActivity(intent);
             return true;
+        } else if(item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -67,13 +69,19 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(NotificationCreationFragment.class.getSimpleName())
                 .commit();
         mFAB.setVisibility(View.GONE);
+        getSupportActionBar().setTitle(getString(R.string.title_create_notification));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onBackPressed() {
-        // make fab visible if we come back to first fragment
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1)
+        // make fab visible and change title if we come back to first fragment
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
             mFAB.setVisibility(View.VISIBLE);
+            getSupportActionBar().setTitle(getString(R.string.app_name));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         super.onBackPressed();
     }
 }

@@ -1,10 +1,8 @@
 package net.headlezz.notificationlogger;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +20,4 @@ public class NotificationListFragment extends Fragment {
         return textView;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((AppCompatActivity) activity).getSupportActionBar().setTitle(getString(R.string.app_name));
-    }
 }
