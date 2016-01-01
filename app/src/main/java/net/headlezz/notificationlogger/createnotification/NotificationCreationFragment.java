@@ -2,6 +2,7 @@ package net.headlezz.notificationlogger.createnotification;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
@@ -20,8 +21,9 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NotificationCreationFragment extends Fragment implements View.OnClickListener {
+public class NotificationCreationFragment extends Fragment implements View.OnClickListener, NotificationScheduleHelper.NotificationScheduleManagerCallback {
 
+    // TODO permissions to vibrate etc?
     // TODO intent
     // TODO check id size
 
@@ -132,6 +134,44 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
     }
 
     private void sheduleNotification(DispatchableNotification dn) {
-        dn.shedule(new Date(System.currentTimeMillis() + 5 * 1000));
+        new NotificationScheduleHelper(getContext(), dn, this).shedule();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onNotificationScheduleCreated(Date date, DispatchableNotification dn) {
+        // delayn the shedule to see if user presses the undo button
+        Snackbar snack = Snackbar.make(getView(), getString(R.string.create_shedule_snack, date.toString()), Snackbar.LENGTH_LONG);
+        ScheduleSnackbarListener listener = new ScheduleSnackbarListener(dn, date);
+        snack.setCallback(listener);
+        snack.setAction(getString(R.string.create_shedule_snack_undo), listener);
+        snack.show();
+    }
+
+    /**
+     * Snackbar listener to track if the user undoes the schedule operation
+     */
+    class ScheduleSnackbarListener extends Snackbar.Callback implements View.OnClickListener {
+
+        private DispatchableNotification mNotification;
+        private Date mDispatchDate;
+        private boolean dispatch = true;
+
+        public ScheduleSnackbarListener(DispatchableNotification notification, Date dispatchDate) {
+            mDispatchDate = dispatchDate;
+            mNotification = notification;
+        }
+
+        @Override
+        public void onClick(View v) {
+            dispatch = false;
+        }
+
+        @Override
+        public void onDismissed(Snackbar snackbar, int event) {
+            super.onDismissed(snackbar, event);
+            if(dispatch)
+                mNotification.shedule(mDispatchDate);
+        }
     }
 }

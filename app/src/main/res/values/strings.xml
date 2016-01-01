@@ -29,6 +29,9 @@
     <string name="create_btSchedule">schedule</string>
     <string name="create_btDispatch">dispatch</string>
 
+    <string name="create_shedule_snack">Notification sheduled for %1$s</string>
+    <string name="create_shedule_snack_undo">Undo</string>
+
     <string-array name="create_categories">
         <item>Alarm</item>
         <item>Call</item>
