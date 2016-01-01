@@ -16,4 +16,45 @@
     <string name="fab_cd_create_notification">FAB: Create notification</string>
     <string name="title_create_notification">Create notification</string>
     <string name="title_blacklist">Blacklist</string>
+    <string name="create_etTitleHint">Title</string>
+    <string name="create_etMessageHint">Message</string>
+    <string name="create_etNotificationIdHint">Notification ID</string>
+    <string name="create_IntentHeader">Intent:</string>
+    <string name="create_IconHeader">Icon:</string>
+    <string name="create_CategoryHeader">Category:</string>
+    <string name="create_cbSound">Sound</string>
+    <string name="create_cbVibrate">Vibrate</string>
+    <string name="create_cbBlink">Blink</string>
+    <string name="create_cbAutoCancel">Auto cancel</string>
+    <string name="create_btSchedule">schedule</string>
+    <string name="create_btDispatch">dispatch</string>
+
+    <string-array name="create_categories">
+        <item>Alarm</item>
+        <item>Call</item>
+        <item>Email</item>
+        <item>Error</item>
+        <item>Event</item>
+        <item>Message</item>
+        <item>Progress</item>
+        <item>Promo</item>
+        <item>Recommendation</item>
+        <item>Reminder</item>
+        <item>Service</item>
+        <item>Social</item>
+        <item>Status</item>
+        <item>System</item>
+        <item>Transport</item>
+    </string-array>
+
+    <string-array name="create_icons">
+        <item>ADB</item>
+        <item>Bluetooth</item>
+        <item>Car</item>
+        <item>Event</item>
+        <item>Video</item>
+        <item>Power</item>
+        <item>SD card</item>
+        <item>SMS</item>
+    </string-array>
 </resources>

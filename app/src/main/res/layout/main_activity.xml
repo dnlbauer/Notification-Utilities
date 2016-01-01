@@ -7,27 +7,25 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <include layout="@layout/toolbar" />
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/main_menu_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:contentDescription="@string/fab_cd_create_notification"
-            android:layout_gravity="bottom|end|right"
-            android:id="@+id/main_menu_fab_add_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="normal"
-            android:src="@drawable/ic_action_add"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"/>
-
-    </FrameLayout>
-
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/main_menu_fab_add_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:contentDescription="@string/fab_cd_create_notification"
+        android:src="@drawable/ic_action_add"
+        app:fabSize="normal" />
 </android.support.design.widget.CoordinatorLayout>
