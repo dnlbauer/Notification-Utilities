@@ -1,8 +1,10 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.createnotification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import net.headlezz.notificationlogger.createnotification.DispatchableNotification;
 
 public class NotificationAlarmReceiver extends BroadcastReceiver {
 

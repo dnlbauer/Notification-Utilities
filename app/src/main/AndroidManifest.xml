@@ -17,7 +17,7 @@
         <activity android:name=".PreferenceActivity"
             android:parentActivityName=".MainActivity"/>
 
-        <receiver android:name=".NotificationAlarmReceiver"
+        <receiver android:name=".createnotification.NotificationAlarmReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="net.headlezz.notificationbroadcast" />

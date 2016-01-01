@@ -1,4 +1,4 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.createnotification;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import net.headlezz.notificationlogger.R;
 
 public class SpinnerIconAdapter extends ArrayAdapter<CharSequence> {
 

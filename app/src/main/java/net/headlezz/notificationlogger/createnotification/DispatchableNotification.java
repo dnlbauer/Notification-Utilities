@@ -1,4 +1,4 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.createnotification;
 
 
 import android.app.AlarmManager;
