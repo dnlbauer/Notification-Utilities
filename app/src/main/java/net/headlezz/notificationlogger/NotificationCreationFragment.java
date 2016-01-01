@@ -124,6 +124,6 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
         if(v.getId() == R.id.create_btDispatch)
             dn.dispatch();
         else
-            Toast.makeText(getContext(), "Not implemented", Toast.LENGTH_LONG)
+            Toast.makeText(getContext(), "Not implemented", Toast.LENGTH_LONG);
     }
 }
