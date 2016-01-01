@@ -129,7 +129,7 @@
         android:layout_marginTop="16dp">
 
         <Button
-            android:id="@+id/create_btShedule"
+            android:id="@+id/create_btSchedule"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
