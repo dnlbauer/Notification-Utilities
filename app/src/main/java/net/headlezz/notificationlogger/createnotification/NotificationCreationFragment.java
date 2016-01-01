@@ -23,9 +23,7 @@ import butterknife.ButterKnife;
 
 public class NotificationCreationFragment extends Fragment implements View.OnClickListener, NotificationScheduleHelper.NotificationScheduleManagerCallback {
 
-    // TODO permissions to vibrate etc?
     // TODO intent
-    // TODO check id size
 
     @Bind(R.id.create_etId)
     EditText etId;
