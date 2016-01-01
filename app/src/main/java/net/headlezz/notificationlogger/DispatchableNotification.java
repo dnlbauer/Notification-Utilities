@@ -1,8 +1,12 @@
 package net.headlezz.notificationlogger;
 
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
 
@@ -11,27 +15,46 @@ import java.util.Date;
 public class DispatchableNotification {
 
     private Context mContext;
+
+    private String mMessage;
+    private String mTitle;
     private int mId;
-    private Notification mNotification;
 
+    private boolean mSound;
+    private boolean mVibrate;
+    private boolean mBlink;
+    private boolean mAutoCancel;
 
-    private DispatchableNotification(Context mContext, String mMessage, String mTitle, int mId, boolean mSound, boolean mVibrate, boolean mBlink, boolean mAutoCancel, int mIcon, String mCategory) {
+    private int mIcon;
+    private String mCategory;
+
+    public DispatchableNotification(Context mContext, String mMessage, String mTitle, int mId, boolean mSound, boolean mVibrate, boolean mBlink, boolean mAutoCancel, int mIcon, String mCategory) {
         this.mContext = mContext;
+        this.mMessage = mMessage;
+        this.mTitle = mTitle;
         this.mId = mId;
+        this.mSound = mSound;
+        this.mVibrate = mVibrate;
+        this.mBlink = mBlink;
+        this.mAutoCancel = mAutoCancel;
+        this.mIcon = mIcon;
+        this.mCategory = mCategory;
+    }
 
+    private Notification buildNotification() {
         int defaults;
-        if(mSound && mVibrate && mBlink)
+        if (mSound && mVibrate && mBlink)
             defaults = Notification.DEFAULT_ALL;
         else {
-            if(mSound) {
-                if(mVibrate)
+            if (mSound) {
+                if (mVibrate)
                     defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
-                else if(mBlink)
+                else if (mBlink)
                     defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS;
                 else
                     defaults = Notification.DEFAULT_SOUND;
-            } else if(mVibrate) {
-                if(mBlink)
+            } else if (mVibrate) {
+                if (mBlink)
                     defaults = Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS;
                 else
                     defaults = Notification.DEFAULT_VIBRATE;
@@ -39,7 +62,7 @@ public class DispatchableNotification {
                 defaults = Notification.DEFAULT_LIGHTS;
         }
 
-        mNotification = new NotificationCompat.Builder(mContext)
+        return new NotificationCompat.Builder(mContext)
                 .setContentText(mMessage)
                 .setContentTitle(mTitle)
                 .setSmallIcon(mIcon)
@@ -50,11 +73,45 @@ public class DispatchableNotification {
     }
 
     public void dispatch() {
-        NotificationManagerCompat.from(mContext).notify(mId, mNotification);
+        NotificationManagerCompat.from(mContext).notify(mId, buildNotification());
     }
 
     public void shedule(Date date) {
-        // TODO
+        Intent notificationIntent = new Intent();
+        notificationIntent.setAction(NotificationAlarmReceiver.BROADCAST_INTENT_ACTION);
+        Bundle b = new Bundle();
+        serializeToBundle(b);
+        notificationIntent.putExtras(b);
+
+        PendingIntent pI = PendingIntent.getBroadcast(mContext, mId, notificationIntent, 0);
+        AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, date.getTime(), pI);
+    }
+
+    public void serializeToBundle(Bundle b) {
+        b.putString("message", mMessage);
+        b.putString("title", mTitle);
+        b.putInt("id", mId);
+        b.putBoolean("sound", mSound);
+        b.putBoolean("vibrate", mVibrate);
+        b.putBoolean("blink", mBlink);
+        b.putBoolean("autocancel", mAutoCancel);
+        b.putInt("icon", mIcon);
+        b.putString("category", mCategory);
+    }
+
+    public static DispatchableNotification fromBundle(Context context, Bundle b) {
+        return new DispatchableNotification.Builder(context)
+                .setMessage(b.getString("message"))
+                .setTitle(b.getString("title"))
+                .setId(b.getInt("id"))
+                .setSound(b.getBoolean("sound"))
+                .setVibrate(b.getBoolean("vibrate"))
+                .setBlink(b.getBoolean("blink"))
+                .setAutoCancel(b.getBoolean("autocancel"))
+                .setIcon(b.getInt("icon"))
+                .setCategory(b.getString("category"))
+                .build();
     }
 
     public static class Builder {

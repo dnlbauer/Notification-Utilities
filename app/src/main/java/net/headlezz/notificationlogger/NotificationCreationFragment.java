@@ -12,7 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,6 +102,7 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
         spIcon.setAdapter(iconAdapter);
 
         btDispatch.setOnClickListener(this);
+        btSchedule.setOnClickListener(this);
 
         return view;
     }
@@ -124,6 +126,10 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
         if(v.getId() == R.id.create_btDispatch)
             dn.dispatch();
         else
-            Toast.makeText(getContext(), "Not implemented", Toast.LENGTH_LONG);
+            sheduleNotification(dn);
+    }
+
+    private void sheduleNotification(DispatchableNotification dn) {
+        dn.shedule(new Date(System.currentTimeMillis() + 5 * 1000));
     }
 }
