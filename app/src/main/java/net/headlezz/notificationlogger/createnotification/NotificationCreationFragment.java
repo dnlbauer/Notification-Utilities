@@ -114,11 +114,33 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        // TODO check input
+        boolean validationError = false;
+        String message = etMessage.getText().toString();
+        if(message.isEmpty()) {
+            etMessage.setError("Message must not be empty.");
+            validationError = true;
+        }
+        String title = etTitle.getText().toString();
+        if(title.isEmpty()) {
+            etTitle.setError("Title must not be empty.");
+            validationError = true;
+        }
+        String idString = etId.getText().toString();
+        int id = 1;
+        try {
+            id = Integer.parseInt(idString);
+        } catch(NumberFormatException e) {
+            etId.setError("Please enter a valid id");
+            validationError = true;
+        }
+
+        if(validationError)
+            return;
+
         DispatchableNotification dn = new DispatchableNotification.Builder(getContext())
-                .setTitle(etTitle.getText().toString())
-                .setMessage(etMessage.getText().toString())
-                .setIcon(Integer.valueOf(etId.getText().toString()))
+                .setTitle(title)
+                .setMessage(message)
+                .setId(id)
                 .setIcon(mNotificationIcons[spIcon.getSelectedItemPosition()])
                 .setSound(cbSound.isChecked())
                 .setVibrate(cbVibrate.isChecked())
