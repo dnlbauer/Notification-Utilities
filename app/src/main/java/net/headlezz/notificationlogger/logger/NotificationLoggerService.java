@@ -18,7 +18,14 @@ import timber.log.Timber;
 
 public class NotificationLoggerService extends NotificationListenerService implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    /**
+     * true if logger is enabled in system settings
+     */
     public static boolean isRunning = false;
+
+    /**
+     * true if logger is enabled in app settings
+     */
     public static boolean isEnabled = true;
 
     SharedPreferences mSharedPrefs;

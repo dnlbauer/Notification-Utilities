@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.headlezz.notificationlogger.createnotification.NotificationCreationFragment;
+import net.headlezz.notificationlogger.logger.LoggerUtils;
 import net.headlezz.notificationlogger.presenter.LoggerWarningPresenter;
 
 import butterknife.Bind;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onResume() {
         super.onResume();
+        if(!LoggerUtils.isLoggerRunning())
+            LoggerUtils.buildNotificationAccessDialog(this).show();
         if(getSupportFragmentManager().getBackStackEntryCount() > 0)
             mFAB.setVisibility(View.GONE);
     }

@@ -5,6 +5,10 @@
 
     <string name="main_snack_logging_disabled_warning">Logging is disabled.</string>
     <string name="main_snack_logging_disabled_warning_action">Enable</string>
+    <string name="main_dialog_enable_notification_access_title">Enable Notification Access</string>
+    <string name="main_dialog_enable_notification_access_message">In order to log notifcations, this app needs access to your notification system.</string>
+    <string name="main_dialog_enable_notification_access_positive">Open settings</string>
+    <string name="main_dialog_enable_notification_access_negative">Cancel</string>
 
     <string name="pref_category_notification_settings">Notification Settings</string>
     <string name="pref_category_support">Support</string>
