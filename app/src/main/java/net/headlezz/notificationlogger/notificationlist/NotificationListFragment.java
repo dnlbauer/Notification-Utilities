@@ -33,8 +33,6 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
 
     private NotificationListAdapter mAdapter;
 
-    // TODO reload list if new notification arrives
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

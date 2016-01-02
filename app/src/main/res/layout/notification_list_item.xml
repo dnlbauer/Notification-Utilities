@@ -25,11 +25,15 @@
             android:orientation="vertical">
 
             <ImageView
+                android:layout_marginEnd="4dp"
+                android:adjustViewBounds="true"
                 android:id="@+id/notification_item_smallIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:contentDescription="@string/notification_small_icon_cd"
-                tools:src="@drawable/ic_sd_card" />
+                tools:src="@drawable/ic_sd_card"
+                android:layout_above="@+id/notification_item_title"
+                android:layout_alignParentTop="true" />
 
             <TextView
                 android:id="@+id/notification_item_appName"

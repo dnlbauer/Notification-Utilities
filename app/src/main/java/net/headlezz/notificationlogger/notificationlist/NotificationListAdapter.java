@@ -2,7 +2,9 @@ package net.headlezz.notificationlogger.notificationlist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -60,7 +62,10 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
             ivAppIcon.setImageDrawable(appIcon);
             ivAppIcon.setContentDescription(String.format(context.getString(R.string.app_icon_cd), n.appName));
 
-            Drawable smallIcon = PackageUtils.getApplicationDrawable(context, n.packageName, n.smallIconId);
+            Drawable smallIcon = DrawableCompat.wrap(PackageUtils.getApplicationDrawable(context, n.packageName, n.smallIconId));
+            DrawableCompat.setTint(smallIcon, Color.BLACK);
+
+
             ivSmallIcon.setImageDrawable(smallIcon);
 
             itemView.setTag(n.id);
