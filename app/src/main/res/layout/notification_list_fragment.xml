@@ -6,6 +6,8 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
+        android:clipToPadding="false"
+        android:paddingBottom="56dp"
         android:visibility="gone"
         tools:visibility="visible"
         android:id="@+id/nList_notificationList"
