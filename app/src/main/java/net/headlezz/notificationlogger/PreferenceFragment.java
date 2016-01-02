@@ -76,7 +76,8 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
+                if(getActivity() != null)
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
             }
         }.execute();
     }
