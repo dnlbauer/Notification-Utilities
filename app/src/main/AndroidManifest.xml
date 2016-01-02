@@ -14,15 +14,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferenceActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".PreferenceActivity"
+            android:parentActivityName=".MainActivity" />
 
-        <receiver android:name=".createnotification.NotificationAlarmReceiver"
+        <receiver
+            android:name=".createnotification.NotificationAlarmReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="net.headlezz.notificationbroadcast" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".logger.NotificationLoggerService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:authorities="net.headlezz.notificationlogger.logger.authority"
+            android:name="net.headlezz.notificationlogger.logger.NotificationProvider"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

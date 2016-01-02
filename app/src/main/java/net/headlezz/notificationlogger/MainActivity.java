@@ -14,6 +14,7 @@ import net.headlezz.notificationlogger.createnotification.NotificationCreationFr
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
