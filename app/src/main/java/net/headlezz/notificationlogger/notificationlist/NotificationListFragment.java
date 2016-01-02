@@ -14,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.headlezz.notificationlogger.R;
+import net.headlezz.notificationlogger.logger.LoggedNotification;
 import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class NotificationListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class NotificationListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NotificationListAdapter.NotificationClickListener {
 
     final int LOADER_ID = 124;
 
@@ -31,6 +32,9 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
     RecyclerView mNotificationList;
 
     private NotificationListAdapter mAdapter;
+
+    // TODO reload list if new notification arrives
+    // TODO notification list divider
 
     @Nullable
     @Override
@@ -46,6 +50,7 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new NotificationListAdapter(getContext(), null);
+        mAdapter.setNotificationClickListener(this);
         mNotificationList.setAdapter(mAdapter);
         getLoaderManager().initLoader(LOADER_ID, Bundle.EMPTY, this);
     }
@@ -85,5 +90,14 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
             mEmptyView.setVisibility(View.GONE);
             mNotificationList.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onNotificationClick(long id) {
+        String qry = Logged_notificationTable.FIELD__ID + " = ? ";
+        String[] args = { String.valueOf(id) };
+        Cursor cursor = getContext().getContentResolver().query(Logged_notificationTable.CONTENT_URI, null, qry, args, null);
+        LoggedNotification notification = Logged_notificationTable.getRow(cursor, true);
+        Timber.e(notification.title);
     }
 }

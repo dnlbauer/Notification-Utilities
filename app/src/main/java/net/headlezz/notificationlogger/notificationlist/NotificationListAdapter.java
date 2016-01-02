@@ -20,7 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class NotificationListAdapter extends CursorRecyclerViewAdapter<NotificationListAdapter.NotificationViewHolder> {
+public class NotificationListAdapter extends CursorRecyclerViewAdapter<NotificationListAdapter.NotificationViewHolder> implements View.OnClickListener {
 
     class NotificationViewHolder extends RecyclerView.ViewHolder {
 
@@ -61,11 +61,23 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
 
             Drawable smallIcon = PackageUtils.getApplicationDrawable(context, n.packageName, n.smallIconId);
             ivSmallIcon.setImageDrawable(smallIcon);
+
+            itemView.setTag(n.id);
         }
     }
 
+    interface NotificationClickListener {
+        void onNotificationClick(long id);
+    }
+
+    private NotificationClickListener mNotificationClickListener;
+
     public NotificationListAdapter(Context context, Cursor cursor) {
         super(context, cursor);
+    }
+
+    public void setNotificationClickListener(NotificationClickListener listener) {
+        mNotificationClickListener = listener;
     }
 
     @Override
@@ -77,6 +89,16 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
     @Override
     public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
+        v.setOnClickListener(this);
         return new NotificationViewHolder(v);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if(mNotificationClickListener != null) {
+            long id = (long) v.getTag();
+            mNotificationClickListener.onNotificationClick(id);
+        }
     }
 }
