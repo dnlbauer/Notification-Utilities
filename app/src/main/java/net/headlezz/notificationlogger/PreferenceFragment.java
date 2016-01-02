@@ -1,10 +1,15 @@
 package net.headlezz.notificationlogger;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -12,6 +17,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
     final String PREF_ABOUT = "pref_about";
     final String PREF_BLACKLIST = "pref_blacklist";
+    final String PREF_CLEAR_DATABASE = "pref_clear_database";
 
 
     interface PreferenceCallbacks {
@@ -24,6 +30,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
         addPreferencesFromResource(R.xml.preferences);
         findPreference(PREF_ABOUT).setOnPreferenceClickListener(this);
         findPreference(PREF_BLACKLIST).setOnPreferenceClickListener(this);
+        findPreference(PREF_CLEAR_DATABASE).setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -35,8 +42,27 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
         } else if(key.equals(PREF_BLACKLIST)) {
             mCallbacks.showBlacklistScreen();
             return true;
-        }
+        } else if(key.equals(PREF_CLEAR_DATABASE))
+            askClearDatabase();
         return false;
+    }
+
+    private void askClearDatabase() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.pref_clear_database_dialog_title)
+                .setMessage(R.string.pref_clear_database_dialog_message)
+                .setNegativeButton(R.string.pref_clear_database_dialog_negative, null)
+                .setPositiveButton(R.string.pref_clear_database_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ContentResolver resolver = getContext().getContentResolver();
+                        // there are no notifications with negative ids, so we use this to select all rows
+                        String whereClause = Logged_notificationTable.FIELD_NOTIFICATION_ID + " != -1";
+                        resolver.delete(Logged_notificationTable.CONTENT_URI, whereClause, new String[0]);
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .create().show();
     }
 
     @SuppressWarnings("ConstantConditions")
