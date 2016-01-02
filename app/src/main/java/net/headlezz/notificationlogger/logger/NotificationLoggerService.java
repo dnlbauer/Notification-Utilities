@@ -1,30 +1,61 @@
 package net.headlezz.notificationlogger.logger;
 
 import android.app.Notification;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
 import net.headlezz.notificationlogger.PackageUtils;
 
 import java.util.Date;
 
-public class NotificationLoggerService extends NotificationListenerService {
+import timber.log.Timber;
 
-    public String TAG = NotificationLoggerService.class.getSimpleName();
+public class NotificationLoggerService extends NotificationListenerService implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public static boolean isRunning = false;
+    public static boolean isEnabled = true;
+
+    SharedPreferences mSharedPrefs;
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        isRunning = true;
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        isEnabled = mSharedPrefs.getBoolean("pref_logging_enabled", true);
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+        Timber.d(String.format("Logger started (running: %s, enabled: %s)", isRunning, isEnabled));
+        return super.onBind(intent);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
+        Timber.d("Logger stopped");
+        return super.onUnbind(intent);
+    }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
-        Log.d(TAG, "Notificaton logged (id: " + sbn.getId() + ")");
+
+        if(!isEnabled) {
+            Timber.d("Notification posted but logger is disabled");
+            return;
+        }
+
 
         LoggedNotification ln = buildLoggedNotification(sbn);
         getApplicationContext().getContentResolver().insert(
                 Logged_notificationTable.CONTENT_URI,
                 Logged_notificationTable.getContentValues(ln, false)
         );
+        Timber.d(String.format("Notificaton logged (id: %d)", ln.notificationId));
     }
 
     private LoggedNotification buildLoggedNotification(StatusBarNotification sbn) {
@@ -39,7 +70,7 @@ public class NotificationLoggerService extends NotificationListenerService {
         try {
             appName = PackageUtils.getAppName(getApplicationContext(), packageName);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.w(TAG, "App name not found for " + packageName);
+            Timber.w("App name not found for " + packageName);
             appName = "";
         }
 
@@ -66,4 +97,11 @@ public class NotificationLoggerService extends NotificationListenerService {
         return ln;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("pref_logging_enabled")) {
+            isEnabled = sharedPreferences.getBoolean("pref_logging_enabled", true);
+            Timber.d("Logging is now " + isEnabled);
+        }
+    }
 }
