@@ -34,7 +34,6 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
     private NotificationListAdapter mAdapter;
 
     // TODO reload list if new notification arrives
-    // TODO notification list divider
 
     @Nullable
     @Override
