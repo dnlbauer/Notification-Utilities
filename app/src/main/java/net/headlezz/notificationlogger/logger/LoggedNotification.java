@@ -1,7 +1,5 @@
 package net.headlezz.notificationlogger.logger;
 
-import java.util.Date;
-
 import ckm.simple.sql_provider.annotation.SimpleSQLColumn;
 import ckm.simple.sql_provider.annotation.SimpleSQLTable;
 
@@ -18,7 +16,7 @@ public class LoggedNotification {
     public String message;
 
     @SimpleSQLColumn("date")
-    public Date date;
+    public long date;
 
     @SimpleSQLColumn("app_name")
     public String appName;

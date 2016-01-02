@@ -61,7 +61,7 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
                 null,
                 null,
                 null,
-                null
+                Logged_notificationTable.FIELD_DATE + " DESC"
         );
     }
 

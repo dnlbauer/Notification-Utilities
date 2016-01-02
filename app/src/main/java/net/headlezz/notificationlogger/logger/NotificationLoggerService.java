@@ -12,8 +12,6 @@ import android.service.notification.StatusBarNotification;
 
 import net.headlezz.notificationlogger.PackageUtils;
 
-import java.util.Date;
-
 import timber.log.Timber;
 
 public class NotificationLoggerService extends NotificationListenerService implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -69,7 +67,7 @@ public class NotificationLoggerService extends NotificationListenerService imple
         int notificationId = sbn.getId();
 
         int userId = sbn.getUserId();
-        Date date = new Date(sbn.getPostTime());
+        long date = sbn.getPostTime();
         String packageName = sbn.getPackageName();
         int iconId = sbn.getNotification().icon;
 
