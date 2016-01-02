@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0)
+            mFAB.setVisibility(View.GONE);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
         return super.onCreateOptionsMenu(menu);
