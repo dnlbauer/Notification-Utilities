@@ -3,6 +3,9 @@
     <string name="menu_item_settings">Settings</string>
     <string name="title_settings">Settings</string>
 
+    <string name="main_snack_logging_disabled_warning">Logging is disabled.</string>
+    <string name="main_snack_logging_disabled_warning_action">Enable</string>
+
     <string name="pref_category_notification_settings">Notification Settings</string>
     <string name="pref_category_support">Support</string>
     <string name="pref_logging_enabled_title">Notification Logging</string>
