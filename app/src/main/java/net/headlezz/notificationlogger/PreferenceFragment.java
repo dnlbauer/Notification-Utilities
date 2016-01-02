@@ -3,6 +3,7 @@ package net.headlezz.notificationlogger;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -55,14 +56,29 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
                 .setPositiveButton(R.string.pref_clear_database_dialog_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ContentResolver resolver = getContext().getContentResolver();
-                        // there are no notifications with negative ids, so we use this to select all rows
-                        String whereClause = Logged_notificationTable.FIELD_NOTIFICATION_ID + " != -1";
-                        resolver.delete(Logged_notificationTable.CONTENT_URI, whereClause, new String[0]);
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
+                        clearDatabase();
                     }
                 })
                 .create().show();
+    }
+
+    private void clearDatabase() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                ContentResolver resolver = getContext().getContentResolver();
+                // there are no notifications with negative ids, so we use this to select all rows
+                String whereClause = Logged_notificationTable.FIELD_NOTIFICATION_ID + " != -1";
+                resolver.delete(Logged_notificationTable.CONTENT_URI, whereClause, new String[0]);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
+            }
+        }.execute();
     }
 
     @SuppressWarnings("ConstantConditions")
