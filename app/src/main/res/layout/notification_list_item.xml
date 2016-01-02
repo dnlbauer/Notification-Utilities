@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/notification_item_appIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            tools:src="@mipmap/ic_launcher" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginEnd="4dp"
+                android:adjustViewBounds="true"
+                android:id="@+id/notification_item_smallIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/notification_small_icon_cd"
+                tools:src="@drawable/ic_sd_card"
+                android:layout_above="@+id/notification_item_title"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/notification_item_appName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/notification_item_smallIcon"
+                android:layout_toStartOf="@+id/notification_item_date"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                tools:text="A really long app name thats ellipsed" />
+
+            <TextView
+                android:id="@+id/notification_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/notification_item_appName"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                tools:text="Notification title" />
+
+            <TextView
+                android:id="@+id/notification_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="4dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                tools:text="16 hours ago" />
+
+            <TextView
+                android:id="@+id/notification_item_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/notification_item_title"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="Some messages wit lots of text and \nTwo lines" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_gravity="bottom"
+        android:background="?attr/colorControlHighlight"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        />
+</FrameLayout>

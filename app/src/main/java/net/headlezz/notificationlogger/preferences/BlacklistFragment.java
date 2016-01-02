@@ -1,4 +1,4 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.preferences;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.preferences;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
+import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
