@@ -58,6 +58,7 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
 
             Drawable appIcon = PackageUtils.getApplicationLauncherIcon(context, n.packageName);
             ivAppIcon.setImageDrawable(appIcon);
+            ivAppIcon.setContentDescription(String.format(context.getString(R.string.app_icon_cd), n.appName));
 
             Drawable smallIcon = PackageUtils.getApplicationDrawable(context, n.packageName, n.smallIconId);
             ivSmallIcon.setImageDrawable(smallIcon);

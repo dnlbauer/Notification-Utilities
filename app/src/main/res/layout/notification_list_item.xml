@@ -21,6 +21,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:contentDescription="@string/notification_small_icon_cd"
             android:id="@+id/notification_item_smallIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
