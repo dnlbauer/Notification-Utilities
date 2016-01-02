@@ -1,4 +1,4 @@
-package net.headlezz.notificationlogger;
+package net.headlezz.notificationlogger.preferences;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
+
+import net.headlezz.notificationlogger.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -15,6 +15,8 @@ import android.view.View;
 
 import net.headlezz.notificationlogger.createnotification.NotificationCreationFragment;
 import net.headlezz.notificationlogger.logger.LoggerUtils;
+import net.headlezz.notificationlogger.notificationlist.NotificationListFragment;
+import net.headlezz.notificationlogger.preferences.PreferenceActivity;
 import net.headlezz.notificationlogger.presenter.LoggerWarningPresenter;
 
 import butterknife.Bind;

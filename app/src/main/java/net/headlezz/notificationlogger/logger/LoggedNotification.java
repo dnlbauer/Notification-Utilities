@@ -8,6 +8,8 @@ import ckm.simple.sql_provider.annotation.SimpleSQLTable;
 @SimpleSQLTable(table="logged_notification", provider="NotificationProvider")
 public class LoggedNotification {
 
+    @SimpleSQLColumn("_id")
+    public long id;
 
     @SimpleSQLColumn("title")
     public String title;
