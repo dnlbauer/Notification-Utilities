@@ -9,6 +9,13 @@
     <string name="main_dialog_enable_notification_access_message">In order to log notifcations, this app needs access to your notification system.</string>
     <string name="main_dialog_enable_notification_access_positive">Open settings</string>
     <string name="main_dialog_enable_notification_access_negative">Cancel</string>
+    <string name="main_notification_details_package"><b>Package:</b> %1$s</string>
+    <string name="main_notification_details_date"><b>Date:</b> %1$s</string>
+    <string name="main_notification_details_userid"><b>User ID:</b> %1$s</string>
+    <string name="main_notification_details_title"><b>Title:</b> %1$s</string>
+    <string name="main_notification_details_message"><b>Message:</b> %1$s</string>
+    <string name="main_notification_details_button_app_info">App Info</string>
+    <string name="main_notification_details_button_ok">OK</string>
 
     <string name="pref_category_notification_settings">Notification Settings</string>
     <string name="pref_category_support">Support</string>
@@ -47,6 +54,7 @@
     <string name="notification_list_empty">No notifications found.</string>
     <string name="notification_small_icon_cd">Notification small icon</string>
     <string name="app_icon_cd">Application icon for %s</string>
+    <string name="notification_info_dialog_app_info_error">Failed to display app info.</string>
 
     <string-array name="create_categories">
         <item>Alarm</item>

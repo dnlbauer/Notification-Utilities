@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.headlezz.notificationlogger.NotificationInfoDialog;
 import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.LoggedNotification;
 import net.headlezz.notificationlogger.logger.Logged_notificationTable;
@@ -96,5 +97,7 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
         Cursor cursor = getContext().getContentResolver().query(Logged_notificationTable.CONTENT_URI, null, qry, args, null);
         LoggedNotification notification = Logged_notificationTable.getRow(cursor, true);
         Timber.e(notification.title);
+
+        new NotificationInfoDialog(getContext(), notification).show();
     }
 }
