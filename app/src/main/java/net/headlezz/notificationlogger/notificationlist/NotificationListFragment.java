@@ -4,12 +4,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,9 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class NotificationListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NotificationListAdapter.NotificationClickListener {
-
-    final int LOADER_ID = 124;
+public class NotificationListFragment extends Fragment implements NotificationListLoaderCallbacks.NotificationListView, NotificationListAdapter.NotificationClickListener {
 
     @Bind(R.id.nList_emptyView)
     View mEmptyView;
@@ -33,6 +31,18 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
     RecyclerView mNotificationList;
 
     private NotificationListAdapter mAdapter;
+    private boolean isFiltered = false;
+    private NotificationListLoaderManager mLoaderManager;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+        mLoaderManager = new NotificationListLoaderManager(
+                getContext(),
+                getLoaderManager(),
+                this);
+    }
 
     @Nullable
     @Override
@@ -40,7 +50,6 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
         View view = inflater.inflate(R.layout.notification_list_fragment, container, false);
         ButterKnife.bind(this, view);
         mNotificationList.setLayoutManager(new LinearLayoutManager(getContext()));
-
         return view;
     }
 
@@ -50,50 +59,57 @@ public class NotificationListFragment extends Fragment implements LoaderManager.
         mAdapter = new NotificationListAdapter(getContext(), null);
         mAdapter.setNotificationClickListener(this);
         mNotificationList.setAdapter(mAdapter);
-        getLoaderManager().initLoader(LOADER_ID, Bundle.EMPTY, this);
+        mLoaderManager.loadNotificationsUnfiltered();
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Timber.d("Loader created.");
-        return new CursorLoader(
-                getContext(),
-                Logged_notificationTable.CONTENT_URI,
-                null,
-                null,
-                null,
-                Logged_notificationTable.FIELD_DATE + " DESC"
-        );
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.notification_list_frag, menu);
+        if (isFiltered)
+            menu.findItem(R.id.menu_filter).setVisible(false);
+        else
+            menu.findItem(R.id.menu_clear_filter).setVisible(false);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Timber.d("Loader finished. " + data.getCount() + " items.");
-        mAdapter.changeCursor(data);
-        checkIfEmpty();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_filter:
+                mLoaderManager.loadNotificationsUnfiltered();
+                setIsFiltered(true);
+                return true;
+            case R.id.menu_clear_filter:
+                mLoaderManager.loadNotificationsUnfiltered();
+                setIsFiltered(false);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void setIsFiltered(boolean filtered) {
+        isFiltered = filtered;
+        if (getActivity() != null)
+            getActivity().supportInvalidateOptionsMenu();
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        Timber.d("Loader reset.");
-        mAdapter.changeCursor(null);
-        checkIfEmpty();
-    }
-
-    private void checkIfEmpty() {
-        if(mAdapter.getItemCount() == 0) {
-            mEmptyView.setVisibility(View.VISIBLE);
+    public void onChangeCursor(Cursor cursor) {
+        mAdapter.changeCursor(cursor);
+        if (mAdapter.getItemCount() == 0) {
             mNotificationList.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
         } else {
-            mEmptyView.setVisibility(View.GONE);
             mNotificationList.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onNotificationClick(long id) {
         String qry = Logged_notificationTable.FIELD__ID + " = ? ";
-        String[] args = { String.valueOf(id) };
+        String[] args = {String.valueOf(id)};
         Cursor cursor = getContext().getContentResolver().query(Logged_notificationTable.CONTENT_URI, null, qry, args, null);
         LoggedNotification notification = Logged_notificationTable.getRow(cursor, true);
         Timber.e(notification.title);

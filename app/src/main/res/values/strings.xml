@@ -55,6 +55,8 @@
     <string name="notification_small_icon_cd">Notification small icon</string>
     <string name="app_icon_cd">Application icon for %s</string>
     <string name="notification_info_dialog_app_info_error">Failed to display app info.</string>
+    <string name="menu_item_filter">Filter</string>
+    <string name="menu_item_clear_filter">Clear filter</string>
 
     <string-array name="create_categories">
         <item>Alarm</item>
