@@ -60,6 +60,10 @@
     <string name="filter_dialog_ok">OK</string>
     <string name="filter_dialog_cancel">Cancel</string>
     <string name="filter_dialog_title">Filter</string>
+    <string name="notification_filter_dialog_title">Title</string>
+    <string name="notification_filter_dialog_message">Message</string>
+    <string name="notification_filter_dialog_application_name">Application name</string>
+    <string name="notification_filter_dialog_package_name">Package name</string>
 
     <string-array name="create_categories">
         <item>Alarm</item>

@@ -9,25 +9,25 @@
         android:id="@+id/notification_filter_etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title" />
+        android:hint="@string/notification_filter_dialog_title" />
 
 
     <EditText
         android:id="@+id/notification_filter_etMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Message" />
+        android:hint="@string/notification_filter_dialog_message" />
 
 
     <EditText
         android:id="@+id/notification_filter_etAppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Application name" />
+        android:hint="@string/notification_filter_dialog_application_name" />
 
     <EditText
         android:id="@+id/notification_filter_etPackage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Package name" />
+        android:hint="@string/notification_filter_dialog_package_name" />
 </LinearLayout>
