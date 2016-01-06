@@ -22,7 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class NotificationListFragment extends Fragment implements NotificationListLoaderCallbacks.NotificationListView, NotificationListAdapter.NotificationClickListener {
+public class NotificationListFragment extends Fragment implements NotificationListLoaderCallbacks.NotificationListView, NotificationListAdapter.NotificationClickListener, NotificationListFilterDialog.NotificationListFilterDialogCallbacks {
 
     @Bind(R.id.nList_emptyView)
     View mEmptyView;
@@ -76,8 +76,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-                mLoaderManager.loadNotificationsUnfiltered();
-                setIsFiltered(true);
+                new NotificationListFilterDialog(getContext(), this).show();
                 return true;
             case R.id.menu_clear_filter:
                 mLoaderManager.loadNotificationsUnfiltered();
@@ -115,5 +114,12 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         Timber.e(notification.title);
 
         new NotificationInfoDialog(getContext(), notification).show();
+    }
+
+    @Override
+    public void onFilterNotificationList(String title, String message, String appName, String packageName) {
+        Timber.d("Selected filter: " + title + "/" + message + "/" + appName + "/" + packageName);
+        setIsFiltered(true);
+        mLoaderManager.loadNotificationsFiltered(title, message, appName, packageName);
     }
 }

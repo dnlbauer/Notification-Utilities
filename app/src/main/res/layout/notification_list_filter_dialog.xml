@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/notification_filter_etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title" />
+
+
+    <EditText
+        android:id="@+id/notification_filter_etMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Message" />
+
+
+    <EditText
+        android:id="@+id/notification_filter_etAppName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Application name" />
+
+    <EditText
+        android:id="@+id/notification_filter_etPackage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Package name" />
+</LinearLayout>
