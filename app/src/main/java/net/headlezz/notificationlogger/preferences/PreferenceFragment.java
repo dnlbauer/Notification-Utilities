@@ -3,14 +3,17 @@ package net.headlezz.notificationlogger.preferences;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.text.Html;
 
 import net.headlezz.notificationlogger.R;
+import net.headlezz.notificationlogger.logger.BlacklistTable;
 import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
@@ -24,6 +27,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
     interface PreferenceCallbacks {
         void showAboutScreen();
+
         void showBlacklistScreen();
     }
 
@@ -33,18 +37,47 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
         findPreference(PREF_ABOUT).setOnPreferenceClickListener(this);
         findPreference(PREF_BLACKLIST).setOnPreferenceClickListener(this);
         findPreference(PREF_CLEAR_DATABASE).setOnPreferenceClickListener(this);
+        setBlacklistItemCount();
+    }
+
+    private void setBlacklistItemCount() {
+        new AsyncTask<Void, Void, Integer>() {
+
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                Cursor cursor = getContext().getContentResolver().query(
+                        BlacklistTable.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+                cursor.moveToFirst();
+                return cursor.getCount();
+            }
+
+            @Override
+            protected void onPostExecute(Integer blacklistItemCount) {
+                Preference blacklistPref = findPreference(PREF_BLACKLIST);
+                if (blacklistItemCount > 0)
+                    blacklistPref.setSummary(Html.fromHtml(getString(R.string.pref_blacklist_summary_filled, blacklistItemCount)));
+                else
+                    blacklistPref.setSummary(getString(R.string.pref_blacklist_summary_empty));
+            }
+        }.execute();
     }
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if(key.equals(PREF_ABOUT)) {
+        if (key.equals(PREF_ABOUT)) {
             mCallbacks.showAboutScreen();
             return true;
-        } else if(key.equals(PREF_BLACKLIST)) {
+        } else if (key.equals(PREF_BLACKLIST)) {
             mCallbacks.showBlacklistScreen();
             return true;
-        } else if(key.equals(PREF_CLEAR_DATABASE))
+        } else if (key.equals(PREF_CLEAR_DATABASE))
             askClearDatabase();
         return false;
     }
@@ -77,7 +110,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if(getActivity() != null)
+                if (getActivity() != null)
                     Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.pref_clear_database_snackbar_cleared, Snackbar.LENGTH_SHORT).show();
             }
         }.execute();

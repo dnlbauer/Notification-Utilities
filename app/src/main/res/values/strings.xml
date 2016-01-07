@@ -15,21 +15,22 @@
     <string name="main_notification_details_title"><b>Title:</b> %1$s</string>
     <string name="main_notification_details_message"><b>Message:</b> %1$s</string>
     <string name="main_notification_details_button_app_info">App Info</string>
-    <string name="main_notification_details_button_ok">OK</string>
+    <string name="main_notification_details_button_ok">@string/ok</string>
 
     <string name="pref_category_notification_settings">Notification Settings</string>
     <string name="pref_category_support">Support</string>
     <string name="pref_logging_enabled_title">Notification Logging</string>
     <string name="pref_logging_enabled_summary">Enable/Disable notification logging</string>
     <string name="pref_blacklist_title">Blacklist</string>
-    <string name="pref_blacklist_summary">Exclude apps from being logged</string>
+    <string name="pref_blacklist_summary_empty">Exclude apps from being logged</string>
+    <string name="pref_blacklist_summary_filled"><b>%1$s</b> apps blacklisted.</string>
     <string name="pref_clear_database_title">Clear database</string>
     <string name="pref_clear_database_summary">Remove all logged notifications</string>
     <string name="pref_export_title">Export to sdcard</string>
     <string name="pref_about_title">About</string>
     <string name="pref_clear_database_dialog_title">Clear database</string>
     <string name="pref_clear_database_dialog_message">Delete all logged notifications?</string>
-    <string name="pref_clear_database_dialog_negative">Cancel</string>
+    <string name="pref_clear_database_dialog_negative">@string/cancel</string>
     <string name="pref_clear_database_dialog_positive">Yes</string>
     <string name="pref_clear_database_snackbar_cleared">Database cleared.</string>
 
@@ -57,13 +58,20 @@
     <string name="notification_info_dialog_app_info_error">Failed to display app info.</string>
     <string name="menu_item_filter">Filter</string>
     <string name="menu_item_clear_filter">Clear filter</string>
-    <string name="filter_dialog_ok">OK</string>
-    <string name="filter_dialog_cancel">Cancel</string>
+    <string name="filter_dialog_ok">@string/ok</string>
+    <string name="filter_dialog_cancel">@string/cancel</string>
     <string name="filter_dialog_title">Filter</string>
     <string name="notification_filter_dialog_title">Title</string>
     <string name="notification_filter_dialog_message">Message</string>
     <string name="notification_filter_dialog_application_name">Application name</string>
     <string name="notification_filter_dialog_package_name">Package name</string>
+    <string name="blacklist_list_empty">No application is blacklisted.</string>
+    <string name="fab_cd_create_blacklist_item">FAB: Create new blacklist item</string>
+    <string name="blacklist_add_dialog_title">Choose app to blacklist</string>
+    <string name="blacklist_dialog_remove_title">Remove from blacklist</string>
+    <string name="blacklist_fragment_remove_message">Remove %s from blacklist?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="create_categories">
         <item>Alarm</item>

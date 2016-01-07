@@ -11,7 +11,7 @@
             android:title="@string/pref_logging_enabled_title" />
         <Preference
             android:key="pref_blacklist"
-            android:summary="@string/pref_blacklist_summary"
+            android:summary="@string/pref_blacklist_summary_empty"
             android:title="@string/pref_blacklist_title" />
         <Preference
             android:key="pref_clear_database"

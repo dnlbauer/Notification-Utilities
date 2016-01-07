@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -49,18 +50,37 @@ public class NotificationLoggerService extends NotificationListenerService imple
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
 
-        if(!isEnabled) {
+        if (!isEnabled) {
             Timber.d("Notification posted but logger is disabled");
             return;
         }
 
 
         LoggedNotification ln = buildLoggedNotification(sbn);
-        getApplicationContext().getContentResolver().insert(
-                Logged_notificationTable.CONTENT_URI,
-                Logged_notificationTable.getContentValues(ln, false)
+        if (isBlacklisted(ln)) {
+            Timber.d("App blacklisted. Notification not logged");
+        } else {
+            getApplicationContext().getContentResolver().insert(
+                    Logged_notificationTable.CONTENT_URI,
+                    Logged_notificationTable.getContentValues(ln, false)
+            );
+            Timber.d(String.format("Notificaton logged (id: %d)", ln.notificationId));
+        }
+    }
+
+    private boolean isBlacklisted(LoggedNotification ln) {
+        Cursor cursor = getApplicationContext().getContentResolver().query(
+                BlacklistTable.CONTENT_URI,
+                null,
+                BlacklistTable.FIELD_PACKAGE_NAME + " = ?",
+                new String[] { String.valueOf(ln.packageName) },
+                null,
+                null
         );
-        Timber.d(String.format("Notificaton logged (id: %d)", ln.notificationId));
+        boolean isBlacklisted = cursor != null && cursor.getCount() > 0;
+        if(cursor != null)
+            cursor.close();
+        return isBlacklisted;
     }
 
     private LoggedNotification buildLoggedNotification(StatusBarNotification sbn) {
@@ -85,9 +105,9 @@ public class NotificationLoggerService extends NotificationListenerService imple
         String title = extras.getString("android.title", "");
         String message = extras.getCharSequence("android.text", "").toString();
 
-        if(message.isEmpty() && notification.tickerText != null)
+        if (message.isEmpty() && notification.tickerText != null)
             message = notification.tickerText.toString();
-        if(message.isEmpty() && extras.containsKey("android.infoText"))
+        if (message.isEmpty() && extras.containsKey("android.infoText"))
             message = extras.get("android.infoText").toString();
 
         LoggedNotification ln = new LoggedNotification();
@@ -104,7 +124,7 @@ public class NotificationLoggerService extends NotificationListenerService imple
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("pref_logging_enabled")) {
+        if (key.equals("pref_logging_enabled")) {
             isEnabled = sharedPreferences.getBoolean("pref_logging_enabled", true);
             Timber.d("Logging is now " + isEnabled);
         }
