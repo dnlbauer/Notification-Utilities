@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.headlezz.notificationlogger.PackageUtils;
+import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.BlacklistItem;
 import net.headlezz.notificationlogger.logger.BlacklistTable;
 import net.headlezz.notificationlogger.notificationlist.CursorRecyclerViewAdapter;
@@ -62,7 +63,7 @@ public class BlacklistListAdapter extends CursorRecyclerViewAdapter implements V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.blacklist_frag_item, parent, false);
         view.setOnLongClickListener(this);
         return new BlacklistViewHolder(view);
     }

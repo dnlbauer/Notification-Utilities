@@ -82,12 +82,12 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="Some messages wit lots of text and \nTwo lines" />
 
-            <View
-                android:layout_marginTop="8dp"
-                android:layout_below="@+id/notification_item_message"
-                android:background="?attr/colorControlHighlight"
+            <include
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="1dp"
+                android:layout_below="@+id/notification_item_message"
+                android:layout_marginTop="8dp"
+                layout="@layout/list_seperator" />
         </RelativeLayout>
 
 
