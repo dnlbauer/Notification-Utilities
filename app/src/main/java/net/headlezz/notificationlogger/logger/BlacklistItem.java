@@ -7,7 +7,7 @@ import ckm.simple.sql_provider.annotation.SimpleSQLTable;
 @SimpleSQLTable(table="blacklist", provider="NotificationProvider")
 public class BlacklistItem {
 
-    @SimpleSQLColumn("_id")
+    @SimpleSQLColumn(value = "_id", primary = true)
     public long id;
 
     @SimpleSQLColumn("package_name")

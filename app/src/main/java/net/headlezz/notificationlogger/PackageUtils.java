@@ -60,7 +60,7 @@ public class PackageUtils {
     public static boolean showAppInfoActivity(Context context, String packageName) {
         try {
             Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + packageName));
+            intent.setData(Uri.fromParts("package", packageName, null));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             context.startActivity(intent);
             return true;
