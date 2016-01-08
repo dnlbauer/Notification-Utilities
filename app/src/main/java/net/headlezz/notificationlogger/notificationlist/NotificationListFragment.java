@@ -1,9 +1,13 @@
 package net.headlezz.notificationlogger.notificationlist;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import android.view.ViewGroup;
 import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.NotificationInfoDialog;
 import net.headlezz.notificationlogger.R;
+import net.headlezz.notificationlogger.logger.BlacklistItem;
 import net.headlezz.notificationlogger.logger.LoggedNotification;
 
 import butterknife.Bind;
@@ -107,10 +112,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     @Override
     public void onNotificationClick(long id) {
-        LoggedNotification notification = DatabaseUtils.getNotificationById(getContext(), id);
-        Timber.e(notification.title);
-
-        new NotificationInfoDialog(getContext(), notification).show();
+        showNotificationInfo(id);
     }
 
     @Override
@@ -119,4 +121,85 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         setIsFiltered(true);
         mLoaderManager.loadNotificationsFiltered(title, message, appName, packageName);
     }
+
+    private void showNotificationInfo(long id) {
+        LoggedNotification notification = DatabaseUtils.getNotificationById(getContext(), id);
+        new NotificationInfoDialog(getContext(), notification).show();
+    }
+
+    @Override
+    public void onNotificationLongClick(final long id) {
+        String[] options = getResources().getStringArray(R.array.notification_list_options);
+        new AlertDialog.Builder(getContext())
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                showNotificationInfo(id);
+                                break;
+                            case 1:
+                                DatabaseUtils.deleteNotification(getContext(), id);
+                                break;
+                            case 2:
+                                showPreselectedFilter(id);
+                                break;
+                            case 3:
+                                blacklistNotificationPackage(id);
+                                break;
+                            case 4:
+                                shareMessage(id);
+                                break;
+                        }
+                    }
+                })
+                .create().show();
+    }
+
+    private void shareMessage(long id) {
+        LoggedNotification notification = DatabaseUtils.getNotificationById(getContext(), id);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, notification.message);
+        shareIntent.putExtra(Intent.EXTRA_TITLE, notification.title);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, notification.title);
+        startActivity(Intent.createChooser(shareIntent, getContext().getString(R.string.share_title)));
+    }
+
+    private void showPreselectedFilter(long id) {
+        LoggedNotification notification = DatabaseUtils.getNotificationById(getContext(), id);
+        new NotificationListFilterDialog(
+                getContext(),
+                this,
+                notification.title,
+                notification.message,
+                notification.appName,
+                notification.packageName)
+                .show();
+    }
+
+    private void blacklistNotificationPackage(long id) {
+        final LoggedNotification ln = DatabaseUtils.getNotificationById(getContext(), id);
+        if (!DatabaseUtils.isPackageBlacklisted(getContext(), ln.packageName)) {
+            BlacklistItem item = new BlacklistItem();
+            item.packageName = ln.packageName;
+            DatabaseUtils.insertBlacklistItem(getContext(), item);
+        }
+        if (getActivity() != null) {
+            Snackbar snackbar = Snackbar.make(
+                    getActivity().findViewById(android.R.id.content),
+                    String.format(getContext().getString(R.string.notification_list_frag_blacklist_snack), ln.packageName),
+                    Snackbar.LENGTH_LONG
+            );
+            snackbar.setAction(R.string.notification_list_frag_blacklist_snack_action, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseUtils.deleteBlacklistItem(getContext(), ln.packageName);
+                }
+            });
+            snackbar.show();
+        }
+
+    }
+
 }

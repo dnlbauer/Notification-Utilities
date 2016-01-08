@@ -22,7 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class NotificationListAdapter extends CursorRecyclerViewAdapter<NotificationListAdapter.NotificationViewHolder> implements View.OnClickListener {
+public class NotificationListAdapter extends CursorRecyclerViewAdapter<NotificationListAdapter.NotificationViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     class NotificationViewHolder extends RecyclerView.ViewHolder {
 
@@ -74,6 +74,7 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
 
     interface NotificationClickListener {
         void onNotificationClick(long id);
+        void onNotificationLongClick(long id);
     }
 
     private NotificationClickListener mNotificationClickListener;
@@ -96,6 +97,7 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
     public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
         v.setOnClickListener(this);
+        v.setOnLongClickListener(this);
         return new NotificationViewHolder(v);
     }
 
@@ -107,4 +109,15 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
             mNotificationClickListener.onNotificationClick(id);
         }
     }
+
+
+    @Override
+    public boolean onLongClick(View v) {
+        if(mNotificationClickListener != null) {
+            long id = (long) v.getTag();
+            mNotificationClickListener.onNotificationLongClick(id);
+        }
+        return true;
+    }
+
 }

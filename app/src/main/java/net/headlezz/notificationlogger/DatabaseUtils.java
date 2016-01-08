@@ -75,4 +75,11 @@ public class DatabaseUtils {
         );
     }
 
+    public static void deleteNotification(Context context, long id) {
+        context.getContentResolver().delete(
+                Logged_notificationTable.CONTENT_URI,
+                Logged_notificationTable.FIELD__ID + " = ?",
+                new String[] {String.valueOf(id)}
+        );
+    }
 }

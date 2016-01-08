@@ -77,6 +77,17 @@
     <string name="pref_export_progress_message">Exporting ...</string>
     <string name="pref_export_snack_failed">Failed to export data.</string>
     <string name="pref_export_snack_success">Exported to %s.</string>
+    <string name="share_title">Share Notification</string>
+    <string name="notification_list_frag_blacklist_snack">%s blacklisted.</string>
+    <string name="notification_list_frag_blacklist_snack_action">Undo</string>
+
+    <string-array name="notification_list_options">
+        <item>Show more info</item>
+        <item>Delete notification</item>
+        <item>Create filter</item>
+        <item>Blacklist this app</item>
+        <item>Share message</item>
+    </string-array>
 
     <string-array name="create_categories">
         <item>Alarm</item>

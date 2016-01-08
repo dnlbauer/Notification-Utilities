@@ -29,6 +29,9 @@ public class NotificationListFilterDialog extends AlertDialog implements DialogI
     @Bind(R.id.notification_filter_etPackage)
     EditText etPackageName;
 
+    boolean hasPreselection = false;
+    String message, title, appName, packageName;
+
     interface NotificationListFilterDialogCallbacks {
         void onFilterNotificationList(
             String title,
@@ -51,10 +54,29 @@ public class NotificationListFilterDialog extends AlertDialog implements DialogI
         setTitle(context.getString(R.string.filter_dialog_title));
     }
 
+    public NotificationListFilterDialog(Context context, NotificationListFilterDialogCallbacks cb, String title, String message, String appName, String packageName) {
+        this(context, cb);
+        this.title = title;
+        this.message = message;
+        this.appName = appName;
+        this.packageName = packageName;
+        hasPreselection = true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        if(hasPreselection) {
+            if(title != null)
+                etTitle.setText(title);
+            if(message != null)
+                etMessage.setText(message);
+            if(packageName != null)
+                etPackageName.setText(packageName);
+            if(appName != null)
+                etAppName.setText(appName);
+        }
     }
 
     @Override
