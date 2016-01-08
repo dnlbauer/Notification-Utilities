@@ -1,30 +1,52 @@
 package net.headlezz.notificationlogger.preferences;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.Html;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
 import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.R;
+import net.headlezz.notificationlogger.logger.LoggedNotification;
+import net.headlezz.notificationlogger.logger.Logged_notificationTable;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import timber.log.Timber;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
     private PreferenceCallbacks mCallbacks;
 
+    public static final int PERMISSION_REQUEST_CODE = 182;
+
     final String PREF_ABOUT = "pref_about";
     final String PREF_BLACKLIST = "pref_blacklist";
     final String PREF_CLEAR_DATABASE = "pref_clear_database";
-
+    final String PREF_EXPORT = "pref_export";
 
     interface PreferenceCallbacks {
         void showAboutScreen();
-
         void showBlacklistScreen();
     }
 
@@ -34,6 +56,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
         findPreference(PREF_ABOUT).setOnPreferenceClickListener(this);
         findPreference(PREF_BLACKLIST).setOnPreferenceClickListener(this);
         findPreference(PREF_CLEAR_DATABASE).setOnPreferenceClickListener(this);
+        findPreference(PREF_EXPORT).setOnPreferenceClickListener(this);
         setBlacklistItemCount();
     }
 
@@ -60,15 +83,99 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (key.equals(PREF_ABOUT)) {
+        if (key.equals(PREF_ABOUT))
             mCallbacks.showAboutScreen();
-            return true;
-        } else if (key.equals(PREF_BLACKLIST)) {
+        else if (key.equals(PREF_BLACKLIST))
             mCallbacks.showBlacklistScreen();
-            return true;
-        } else if (key.equals(PREF_CLEAR_DATABASE))
+        else if (key.equals(PREF_CLEAR_DATABASE))
             askClearDatabase();
-        return false;
+        else if (key.equals(PREF_EXPORT))
+            tryExportDatabase();
+        return true;
+    }
+
+    private void tryExportDatabase() {
+        int requestPermission = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(requestPermission == PackageManager.PERMISSION_GRANTED)
+            exportDatabase();
+        else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PreferenceFragment.PERMISSION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            exportDatabase();
+        } else
+            Toast.makeText(getContext(), getString(R.string.pref_error_no_export_permission), Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void exportDatabase() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getContext().getString(R.string.pref_export_progress_message));
+        progressDialog.show();
+
+        new AsyncTask<Void, Void, String>() {
+
+            @Override
+            protected String doInBackground(Void... params) {
+                Cursor cursor = getContext().getContentResolver().query(
+                        Logged_notificationTable.CONTENT_URI,
+                        null, null, null, Logged_notificationTable.FIELD_DATE + " ASC"
+                );
+
+                JsonArray json = new JsonArray();
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        LoggedNotification notification = Logged_notificationTable.getRow(cursor, false);
+                        json.add(gson.toJson(notification, LoggedNotification.class));
+                    } while (cursor.moveToNext());
+                }
+                if (cursor != null)
+                    cursor.close();
+
+                File sdCard = Environment.getExternalStorageDirectory();
+                File file = new File(sdCard, getContext().getString(R.string.notification_export_filename));
+                FileOutputStream fos = null;
+                try {
+                    if (!file.exists())
+                        file.createNewFile();
+                    fos = new FileOutputStream(file, false);
+                    fos.write(gson.toJson(json).getBytes());
+                } catch (IOException e) {
+                    Timber.e(e, "Failed to export data");
+                    return "";
+                } finally {
+                    if (fos != null)
+                        try {
+                            fos.close();
+                        } catch (IOException ignored) {
+                        }
+                }
+                return file.getAbsolutePath();
+            }
+
+            @Override
+            protected void onPostExecute(String path) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+                if (getActivity() != null) {
+                    String message;
+                    if (path.isEmpty())
+                        message = getContext().getString(R.string.pref_export_snack_failed);
+                    else
+                        message = String.format(getContext().getString(R.string.pref_export_snack_success), path);
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
     private void askClearDatabase() {

@@ -72,6 +72,11 @@
     <string name="blacklist_fragment_remove_message">Remove %s from blacklist?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="notification_export_filename">notification_export.json</string>
+    <string name="pref_error_no_export_permission">Cannot export without file access</string>
+    <string name="pref_export_progress_message">Exporting ...</string>
+    <string name="pref_export_snack_failed">Failed to export data.</string>
+    <string name="pref_export_snack_success">Exported to %s.</string>
 
     <string-array name="create_categories">
         <item>Alarm</item>
