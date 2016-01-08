@@ -80,6 +80,9 @@
     <string name="share_title">Share Notification</string>
     <string name="notification_list_frag_blacklist_snack">%s blacklisted.</string>
     <string name="notification_list_frag_blacklist_snack_action">Undo</string>
+    <string name="pref_export_snack_action">Show</string>
+    <string name="pref_export_snack_show_chooser_title">Open folder</string>
+    <string name="pref_export_snack_show_activity_not_found">No file browser installed.</string>
 
     <string-array name="notification_list_options">
         <item>Show more info</item>

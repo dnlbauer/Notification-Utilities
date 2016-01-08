@@ -3,9 +3,12 @@ package net.headlezz.notificationlogger.preferences;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.Html;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -167,15 +171,36 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
                 if (progressDialog != null && progressDialog.isShowing())
                     progressDialog.dismiss();
                 if (getActivity() != null) {
-                    String message;
-                    if (path.isEmpty())
-                        message = getContext().getString(R.string.pref_export_snack_failed);
-                    else
-                        message = String.format(getContext().getString(R.string.pref_export_snack_success), path);
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+
+                    if (path.isEmpty()) {
+                        String message = getContext().getString(R.string.pref_export_snack_failed);
+                        Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
+                        snack.show();
+                    } else {
+                        String message = String.format(getContext().getString(R.string.pref_export_snack_success), path);
+                        Snackbar snack = Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT);
+                        snack.setAction(R.string.pref_export_snack_action, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showFolder();
+                            }
+                        });
+                        snack.show();
+                    }
                 }
             }
         }.execute();
+    }
+
+    private void showFolder() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
+            intent.setDataAndType(uri, "file/*");
+            startActivity(Intent.createChooser(intent, getContext().getString(R.string.pref_export_snack_show_chooser_title)));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), R.string.pref_export_snack_show_activity_not_found, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void askClearDatabase() {
