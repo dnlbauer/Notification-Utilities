@@ -13,10 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.NotificationInfoDialog;
 import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.LoggedNotification;
-import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -107,10 +107,7 @@ public class NotificationListFragment extends Fragment implements NotificationLi
 
     @Override
     public void onNotificationClick(long id) {
-        String qry = Logged_notificationTable.FIELD__ID + " = ? ";
-        String[] args = {String.valueOf(id)};
-        Cursor cursor = getContext().getContentResolver().query(Logged_notificationTable.CONTENT_URI, null, qry, args, null);
-        LoggedNotification notification = Logged_notificationTable.getRow(cursor, true);
+        LoggedNotification notification = DatabaseUtils.getNotificationById(getContext(), id);
         Timber.e(notification.title);
 
         new NotificationInfoDialog(getContext(), notification).show();

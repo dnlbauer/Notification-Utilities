@@ -1,6 +1,5 @@
 package net.headlezz.notificationlogger.preferences;
 
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.PackageUtils;
 import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.BlacklistItem;
@@ -147,24 +147,9 @@ public class BlacklistFragment extends Fragment implements LoaderManager.LoaderC
                                 String packageName = packageNames.get(which);
                                 BlacklistItem item = new BlacklistItem();
                                 item.packageName = packageName;
-                                ContentResolver cr = getContext().getContentResolver();
-                                Cursor cursor = cr.query(
-                                        BlacklistTable.CONTENT_URI,
-                                        null,
-                                        BlacklistTable.FIELD_PACKAGE_NAME + " = ?",
-                                        new String[] { packageName },
-                                        null,
-                                        null
-                                );
-                                boolean blacklisted = cursor.getCount() > 0;
-                                cursor.close();
-                                if(!blacklisted) {
-                                    getContext().getContentResolver().insert(
-                                            BlacklistTable.CONTENT_URI,
-                                            BlacklistTable.getContentValues(item, false)
-                                    );
+                                if(!DatabaseUtils.isPackageBlacklisted(getContext(), packageName)) {
+                                    DatabaseUtils.insertBlacklistItem(getContext(), item);
                                 }
-                                cursor.close();
                             }
                         })
                         .create().show();
@@ -186,11 +171,7 @@ public class BlacklistFragment extends Fragment implements LoaderManager.LoaderC
                 .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getContext().getContentResolver().delete(
-                                BlacklistTable.CONTENT_URI,
-                                BlacklistTable.FIELD_PACKAGE_NAME + " = ?",
-                                new String[] {String.valueOf(item.packageName)}
-                        );
+                        DatabaseUtils.deleteBlacklistItem(getContext(), item.packageName);
                     }
                 })
                 .setNegativeButton(getContext().getString(R.string.cancel), null)

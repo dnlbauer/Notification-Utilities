@@ -4,13 +4,13 @@ import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.PackageUtils;
 
 import timber.log.Timber;
@@ -60,27 +60,18 @@ public class NotificationLoggerService extends NotificationListenerService imple
         if (isBlacklisted(ln)) {
             Timber.d("App blacklisted. Notification not logged");
         } else {
-            getApplicationContext().getContentResolver().insert(
-                    Logged_notificationTable.CONTENT_URI,
-                    Logged_notificationTable.getContentValues(ln, false)
-            );
+            DatabaseUtils.insertNotification(getApplicationContext(), ln);
             Timber.d(String.format("Notificaton logged (id: %d)", ln.notificationId));
         }
     }
 
+    @Override
+    public void onNotificationRemoved(StatusBarNotification sbn) {
+        super.onNotificationRemoved(sbn);
+    }
+
     private boolean isBlacklisted(LoggedNotification ln) {
-        Cursor cursor = getApplicationContext().getContentResolver().query(
-                BlacklistTable.CONTENT_URI,
-                null,
-                BlacklistTable.FIELD_PACKAGE_NAME + " = ?",
-                new String[] { String.valueOf(ln.packageName) },
-                null,
-                null
-        );
-        boolean isBlacklisted = cursor != null && cursor.getCount() > 0;
-        if(cursor != null)
-            cursor.close();
-        return isBlacklisted;
+        return DatabaseUtils.isPackageBlacklisted(getApplicationContext(), ln.packageName);
     }
 
     private LoggedNotification buildLoggedNotification(StatusBarNotification sbn) {

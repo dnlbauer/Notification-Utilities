@@ -1,9 +1,7 @@
 package net.headlezz.notificationlogger.preferences;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,9 +10,8 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.Html;
 
+import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.R;
-import net.headlezz.notificationlogger.logger.BlacklistTable;
-import net.headlezz.notificationlogger.logger.Logged_notificationTable;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -46,15 +43,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
             @Override
             protected Integer doInBackground(Void... params) {
-                Cursor cursor = getContext().getContentResolver().query(
-                        BlacklistTable.CONTENT_URI,
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                cursor.moveToFirst();
-                return cursor.getCount();
+                return DatabaseUtils.getBlacklistItemCount(getContext());
             }
 
             @Override
@@ -101,10 +90,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
 
             @Override
             protected Void doInBackground(Void... params) {
-                ContentResolver resolver = getContext().getContentResolver();
-                // there are no notifications with negative ids, so we use this to select all rows
-                String whereClause = Logged_notificationTable.FIELD_NOTIFICATION_ID + " != -1";
-                resolver.delete(Logged_notificationTable.CONTENT_URI, whereClause, new String[0]);
+                DatabaseUtils.removeAllNotifications(getContext());
                 return null;
             }
 
