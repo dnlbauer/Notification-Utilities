@@ -8,6 +8,7 @@ import net.headlezz.notificationlogger.logger.BlacklistItem;
 import net.headlezz.notificationlogger.logger.BlacklistTable;
 import net.headlezz.notificationlogger.logger.LoggedNotification;
 import net.headlezz.notificationlogger.logger.Logged_notificationTable;
+import net.headlezz.notificationlogger.widget.WidgetUtils;
 
 public class DatabaseUtils {
 
@@ -16,6 +17,7 @@ public class DatabaseUtils {
                 Logged_notificationTable.CONTENT_URI,
                 Logged_notificationTable.getContentValues(ln, false)
         );
+        WidgetUtils.notifyWidgetsUpdate(context);
     }
 
     public static LoggedNotification getNotificationById(Context context, long id) {
@@ -31,6 +33,7 @@ public class DatabaseUtils {
         // there are no notifications with negative ids, so we use this to select all rows
         String whereClause = Logged_notificationTable.FIELD_NOTIFICATION_ID + " != -1";
         resolver.delete(Logged_notificationTable.CONTENT_URI, whereClause, new String[0]);
+        WidgetUtils.notifyWidgetsUpdate(context);
     }
 
     public static boolean isPackageBlacklisted(Context context, String packageName) {
@@ -71,7 +74,7 @@ public class DatabaseUtils {
         context.getContentResolver().delete(
                 BlacklistTable.CONTENT_URI,
                 BlacklistTable.FIELD_PACKAGE_NAME + " = ?",
-                new String[] {packageName}
+                new String[]{packageName}
         );
     }
 
@@ -79,7 +82,8 @@ public class DatabaseUtils {
         context.getContentResolver().delete(
                 Logged_notificationTable.CONTENT_URI,
                 Logged_notificationTable.FIELD__ID + " = ?",
-                new String[] {String.valueOf(id)}
+                new String[]{String.valueOf(id)}
         );
+        WidgetUtils.notifyWidgetsUpdate(context);
     }
 }

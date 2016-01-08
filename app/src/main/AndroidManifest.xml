@@ -43,6 +43,18 @@
             android:name="net.headlezz.notificationlogger.logger.NotificationProvider"
             android:exported="true"
             />
+
+        <!-- widget stuff -->
+        <receiver android:name=".widget.ListWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+        <service android:name=".widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            />
     </application>
 
 </manifest>

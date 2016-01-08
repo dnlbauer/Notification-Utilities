@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/widget_list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        tools:text="appname" />
+
+    <TextView
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:layout_below="@+id/widget_list_item_title"
+        android:id="@+id/widget_list_item_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        tools:text="message" />
+
+    <TextView
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:id="@+id/widget_list_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        tools:text="date"
+        android:layout_alignTop="@+id/widget_list_item_title"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
