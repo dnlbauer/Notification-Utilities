@@ -30,7 +30,6 @@ public class NotificationListLoaderCallbacks implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // TODO apply filters
         Timber.d("Loader created.");
         String titleFilter = args.containsKey(Logged_notificationTable.FIELD_TITLE) ? args.getString(Logged_notificationTable.FIELD_TITLE) : "";
         String messageFilter = args.containsKey(Logged_notificationTable.FIELD_MESSAGE) ? args.getString(Logged_notificationTable.FIELD_MESSAGE) : "";

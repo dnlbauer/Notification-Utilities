@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_SimpleSQLProvider"></string>
+    <string name="library_SimpleSQLProvider_author">Kurt Mbanje</string>
+    <string name="library_SimpleSQLProvider_authorWebsite">http://http://peirr.com/</string>
+    <string name="library_SimpleSQLProvider_libraryName">SimpleSQLProvider</string>
+    <string name="library_SimpleSQLProvider_libraryDescription">The Fastest Way to create a sql based ContentProvider in Android using annotations (No reflection)</string>
+    <string name="library_SimpleSQLProvider_libraryVersion">1.0.7</string>
+    <string name="library_SimpleSQLProvider_libraryWebsite">https://github.com/ckurtm/simple-sql-provider/</string>
+    <!-- Possible values right now: apache_2_0, mit, bsd_2, bsd_3 -->
+    <string name="library_SimpleSQLProvider_licenseId">apache_2_0</string>
+    <!-- you still can define the license within your library definition, but it is recommend to use the id -->
+    <!-- possible fields for a custom license: *_licenseVersion, *_licenseLink, *_licenseContent -->
+    <string name="library_SimpleSQLProvider_isOpenSource">true</string>
+    <string name="library_SimpleSQLProvider_repositoryLink">@string/library_SimpleSQLProvider_libraryWebsite</string>
+</resources>

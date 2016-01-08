@@ -36,7 +36,6 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
 
     @Override
     public void showAboutScreen() {
-        // TODO add other libraries
         LibsSupportFragment aboutFrag = new LibsBuilder()
                 .withAboutAppName(getString(R.string.app_name))
                 .withAboutIconShown(true)
