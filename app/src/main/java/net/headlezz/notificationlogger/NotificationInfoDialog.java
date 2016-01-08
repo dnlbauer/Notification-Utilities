@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import net.headlezz.notificationlogger.logger.LoggedNotification;
@@ -29,7 +30,7 @@ public class NotificationInfoDialog extends AlertDialog implements DialogInterfa
         contentBuilder.append(getContext().getString(R.string.main_notification_details_package, mNotification.packageName));
         contentBuilder.append("<br />");
         contentBuilder.append(getContext().getString(R.string.main_notification_details_date,
-                9999));
+                DateUtils.formatDateTime(getContext(), mNotification.date, DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE)));
         contentBuilder.append("<br />");
         contentBuilder.append(getContext().getString(R.string.main_notification_details_userid, mNotification.userId));
         contentBuilder.append("<br />");
