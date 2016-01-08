@@ -50,7 +50,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile('com.mikepenz:aboutlibraries:5.3.6@aar') {
         transitive = true
     }
