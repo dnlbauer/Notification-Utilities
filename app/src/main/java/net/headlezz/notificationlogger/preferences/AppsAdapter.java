@@ -60,12 +60,15 @@ public class AppsAdapter extends BaseAdapter {
         String packageName = (String) getItem(position);
         viewHolder.tvPackageName.setText(packageName);
         try {
-            viewHolder.tvName.setText(PackageUtils.getAppName(convertView.getContext(), packageName));
+            String appName = PackageUtils.getAppName(convertView.getContext(), packageName);
+            viewHolder.tvName.setText(appName);
             viewHolder.ivIcon.setImageDrawable(PackageUtils.getApplicationLauncherIcon(convertView.getContext(), packageName));
+            viewHolder.ivIcon.setContentDescription(convertView.getContext().getString(R.string.app_icon_cd, appName));
         } catch (PackageManager.NameNotFoundException e) {
             Timber.d("app name not found", e);
             viewHolder.tvName.setText("");
             viewHolder.ivIcon.setImageDrawable(null);
+            viewHolder.ivIcon.setContentDescription("");
         }
 
         return convertView;

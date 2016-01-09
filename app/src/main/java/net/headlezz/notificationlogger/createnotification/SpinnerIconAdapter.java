@@ -38,6 +38,7 @@ public class SpinnerIconAdapter extends ArrayAdapter<CharSequence> {
         ImageView iconView = (ImageView) convertView.findViewById(R.id.spinner_icon);
         Drawable icon = getContext().getResources().getDrawable(itemIcons[position]);
         iconView.setImageDrawable(icon);
+        iconView.setContentDescription(convertView.getContext().getString(R.string.create_icon_content_description, getItem(position)));
         return convertView;
     }
 
@@ -51,6 +52,7 @@ public class SpinnerIconAdapter extends ArrayAdapter<CharSequence> {
         ImageView iconView = (ImageView) convertView.findViewById(R.id.spinner_icon);
         Drawable icon = getContext().getResources().getDrawable(itemIcons[position]);
         iconView.setImageDrawable(icon);
+        iconView.setContentDescription(convertView.getContext().getString(R.string.create_icon_content_description, getItem(position)));
         return convertView;
     }
 

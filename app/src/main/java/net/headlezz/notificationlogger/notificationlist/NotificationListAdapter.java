@@ -73,6 +73,7 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
 
 
             ivSmallIcon.setImageDrawable(smallIcon);
+            ivSmallIcon.setContentDescription(context.getString(R.string.notification_list_item_small_icon_content_description, n.appName));
 
             itemView.setTag(n.id);
         }

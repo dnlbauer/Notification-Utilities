@@ -53,6 +53,7 @@
     <string name="create_shedule_snack">Notification sheduled for %1$s</string>
     <string name="create_shedule_snack_undo">Undo</string>
     <string name="notification_list_empty">No notifications found.</string>
+    <string name="notification_list_item_small_icon_content_description">Small notification icon: %s</string>
     <string name="notification_small_icon_cd">Notification small icon</string>
     <string name="app_icon_cd">Application icon for %s</string>
     <string name="notification_info_dialog_app_info_error">Failed to display app info.</string>
@@ -111,14 +112,16 @@
         <item>Transport</item>
     </string-array>
 
+    <string name="create_icon_content_description">Notification icon: %s</string>
     <string-array name="create_icons">
-        <item>ADB</item>
-        <item>Bluetooth</item>
-        <item>Car</item>
-        <item>Event</item>
-        <item>Video</item>
-        <item>Power</item>
-        <item>SD card</item>
-        <item>SMS</item>
-    </string-array>
+    <item>ADB</item>
+    <item>Bluetooth</item>
+    <item>Car</item>
+    <item>Event</item>
+    <item>Video</item>
+    <item>Power</item>
+    <item>SD card</item>
+    <item>SMS</item>
+</string-array>
+    <string-array name="create_icons_content_descriptions" />
 </resources>
