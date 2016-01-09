@@ -49,18 +49,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/create_IntentHeader" />
-
-                <Spinner
-                    android:id="@+id/create_spIntent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:listitem="@android:layout/simple_spinner_item" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/create_IconHeader" />
 

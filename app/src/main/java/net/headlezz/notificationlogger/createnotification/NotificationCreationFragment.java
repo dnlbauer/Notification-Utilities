@@ -23,8 +23,6 @@ import butterknife.ButterKnife;
 
 public class NotificationCreationFragment extends Fragment implements View.OnClickListener, NotificationScheduleHelper.NotificationScheduleManagerCallback {
 
-    // TODO intent
-
     @Bind(R.id.create_etId)
     EditText etId;
 
@@ -48,9 +46,6 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
 
     @Bind(R.id.create_spCategory)
     Spinner spCategory;
-
-    @Bind(R.id.create_spIntent)
-    Spinner spIntent;
 
     @Bind(R.id.create_spIcon)
     Spinner spIcon;
