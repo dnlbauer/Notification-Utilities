@@ -62,6 +62,7 @@
                 tools:text="Notification title" />
 
             <TextView
+                android:textColor="@color/colorAccent"
                 android:id="@+id/notification_item_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

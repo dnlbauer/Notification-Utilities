@@ -70,7 +70,13 @@ public class ListWidgetViewFactory implements RemoteViewsService.RemoteViewsFact
         titleSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, title.length(), 0);
 
         rv.setTextViewText(R.id.widget_list_item_notification, titleSpan);
-        rv.setTextViewText(R.id.widget_list_item_date, DateUtils.formatDateTime(mContext, notification.date, DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE));
+
+        CharSequence formattedDate;
+        if(DateUtils.isToday(notification.date))
+            formattedDate = DateUtils.formatDateTime(mContext, notification.date, DateUtils.FORMAT_SHOW_TIME);
+        else
+            formattedDate = DateUtils.formatDateTime(mContext, notification.date, DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE);
+        rv.setTextViewText(R.id.widget_list_item_date, formattedDate);
 
         Intent intent = new Intent();
         intent.putExtra(Logged_notificationTable.FIELD__ID, notification.id);

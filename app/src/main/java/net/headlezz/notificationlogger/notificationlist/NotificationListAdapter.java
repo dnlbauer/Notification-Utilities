@@ -55,7 +55,13 @@ public class NotificationListAdapter extends CursorRecyclerViewAdapter<Notificat
             tvMessage.setText(n.message);
             tvTitle.setText(n.title);
             tvAppName.setText(n.appName);
-            CharSequence formattedDate = DateUtils.getRelativeTimeSpanString(n.date, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
+
+            CharSequence formattedDate;
+            if(DateUtils.isToday(n.date))
+                formattedDate = DateUtils.formatDateTime(context, n.date, DateUtils.FORMAT_SHOW_TIME);
+            else
+                formattedDate = DateUtils.formatDateTime(context, n.date, DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE);
+
             tvDate.setText(formattedDate);
 
             Drawable appIcon = PackageUtils.getApplicationLauncherIcon(context, n.packageName);
