@@ -121,6 +121,7 @@
             android:layout_marginTop="16dp">
 
             <Button
+                android:contentDescription="@string/create_btSchedule_content_description"
                 android:id="@+id/create_btSchedule"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="0dp"
@@ -130,6 +131,7 @@
                 android:text="@string/create_btSchedule" />
 
             <Button
+                android:contentDescription="@string/create_btDispatch_content_description"
                 android:id="@+id/create_btDispatch"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="0dp"

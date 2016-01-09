@@ -113,6 +113,8 @@
     </string-array>
 
     <string name="create_icon_content_description">Notification icon: %s</string>
+    <string name="create_btDispatch_content_description">Dispatch notification</string>
+    <string name="create_btSchedule_content_description">Schedule notification</string>
     <string-array name="create_icons">
     <item>ADB</item>
     <item>Bluetooth</item>
