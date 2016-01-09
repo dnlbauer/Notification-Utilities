@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 
+import net.headlezz.notificationlogger.Analytics;
 import net.headlezz.notificationlogger.R;
 
 import butterknife.Bind;
@@ -46,6 +47,8 @@ public class PreferenceActivity extends AppCompatActivity implements PreferenceF
                 .replace(R.id.fragment_holder, aboutFrag)
                 .addToBackStack("about")
                 .commit();
+
+        Analytics.trackEvent(Analytics.ACTION_ABOUT);
     }
 
     @Override

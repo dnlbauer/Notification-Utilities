@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.headlezz.notificationlogger.Analytics;
 import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.NotificationInfoDialog;
 import net.headlezz.notificationlogger.R;
@@ -65,6 +66,12 @@ public class NotificationListFragment extends Fragment implements NotificationLi
         mAdapter.setNotificationClickListener(this);
         mNotificationList.setAdapter(mAdapter);
         mLoaderManager.loadNotificationsUnfiltered();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Analytics.trackFragment(this);
     }
 
     @Override

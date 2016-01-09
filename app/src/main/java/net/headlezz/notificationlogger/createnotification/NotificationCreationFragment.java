@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import net.headlezz.notificationlogger.Analytics;
 import net.headlezz.notificationlogger.R;
 
 import java.util.Date;
@@ -104,6 +105,12 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Analytics.trackFragment(this);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -142,9 +149,10 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
                 .setCategory(categories[spCategory.getSelectedItemPosition()])
                 .build();
 
-        if(v.getId() == R.id.create_btDispatch)
+        if(v.getId() == R.id.create_btDispatch) {
             dn.dispatch();
-        else
+            Analytics.trackEvent(Analytics.ACTION_CUSTOM_NOTIFICATION_DISPATCHED);
+        } else
             sheduleNotification(dn);
     }
 
@@ -185,8 +193,10 @@ public class NotificationCreationFragment extends Fragment implements View.OnCli
         @Override
         public void onDismissed(Snackbar snackbar, int event) {
             super.onDismissed(snackbar, event);
-            if(dispatch)
+            if(dispatch) {
                 mNotification.shedule(mDispatchDate);
+                Analytics.trackEvent(Analytics.ACTION_CUSTOM_NOTIFICATION_SCHEDULED);
+            }
         }
     }
 }

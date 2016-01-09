@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.headlezz.notificationlogger.Analytics;
 import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.PackageUtils;
 import net.headlezz.notificationlogger.R;
@@ -65,6 +66,12 @@ public class BlacklistFragment extends Fragment implements LoaderManager.LoaderC
         mAdapter = new BlacklistListAdapter(getContext(), null, this);
         mBlacklistList.setAdapter(mAdapter);
         getLoaderManager().initLoader(LOADER_ID, Bundle.EMPTY, this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Analytics.trackFragment(this);
     }
 
     @Override

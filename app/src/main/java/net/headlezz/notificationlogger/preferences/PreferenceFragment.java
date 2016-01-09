@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 
+import net.headlezz.notificationlogger.Analytics;
 import net.headlezz.notificationlogger.DatabaseUtils;
 import net.headlezz.notificationlogger.R;
 import net.headlezz.notificationlogger.logger.LoggedNotification;
@@ -62,6 +63,12 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
         findPreference(PREF_CLEAR_DATABASE).setOnPreferenceClickListener(this);
         findPreference(PREF_EXPORT).setOnPreferenceClickListener(this);
         setBlacklistItemCount();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Analytics.trackFragment(this);
     }
 
     private void setBlacklistItemCount() {
@@ -188,6 +195,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
                         snack.show();
                     }
                 }
+                Analytics.trackEvent(Analytics.ACTION_EXPORTED);
             }
         }.execute();
     }
@@ -212,6 +220,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Pref
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         clearDatabase();
+                        Analytics.trackEvent(Analytics.ACTION_DATABASE_CLEARED);
                     }
                 })
                 .create().show();
