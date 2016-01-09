@@ -4,35 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/widget_list_item"
     android:padding="8dp">
 
     <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_alignParentStart="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:id="@+id/widget_list_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        tools:text="appname" />
+        tools:text="appname asd asdasqweqwe qw q asd asd aweq"
+        android:layout_toStartOf="@+id/widget_list_item_date" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:layout_alignParentStart="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_below="@+id/widget_list_item_title"
         android:id="@+id/widget_list_item_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
         android:textColor="@android:color/black"
-        tools:text="message" />
+        tools:text="notification" />
+
 
     <TextView
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:id="@+id/widget_list_item_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorAccent"
         tools:text="date"
         android:layout_alignTop="@+id/widget_list_item_title"
         android:layout_alignParentEnd="true" />

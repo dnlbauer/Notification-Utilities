@@ -2,11 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="4dp">
+    android:orientation="vertical">
+
+    <TextView
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:background="@color/colorPrimary"
+        android:text="@string/widget_list_title"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!-- ListView to be shown on widget -->
     <ListView
+        android:visibility="gone"
         android:dividerHeight="4dp"
         android:id="@+id/list_widget_listView"
         android:layout_width="match_parent"
@@ -14,13 +25,13 @@
 
     <!-- Empty view is show if list items are empty -->
     <TextView
+        android:background="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/list_widget_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Empty list"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:visibility="gone" />
+        android:text="@string/widget_list_empty"
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

@@ -1,8 +1,12 @@
 package net.headlezz.notificationlogger.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -55,13 +59,22 @@ public class ListWidgetViewFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
-        mCursor.moveToPosition(position);
 
+        mCursor.moveToPosition(position);
         LoggedNotification notification = Logged_notificationTable.getRow(mCursor, false);
 
         rv.setTextViewText(R.id.widget_list_item_title, notification.appName);
-        rv.setTextViewText(R.id.widget_list_item_notification, notification.title + ": " + notification.message);
+
+        String title = notification.title + ":";
+        SpannableString titleSpan = new SpannableString(title + " " + notification.message);
+        titleSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, title.length(), 0);
+
+        rv.setTextViewText(R.id.widget_list_item_notification, titleSpan);
         rv.setTextViewText(R.id.widget_list_item_date, DateUtils.formatDateTime(mContext, notification.date, DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE));
+
+        Intent intent = new Intent();
+        intent.putExtra(Logged_notificationTable.FIELD__ID, notification.id);
+        rv.setOnClickFillInIntent(R.id.widget_list_item, intent);
         return rv;
     }
 
