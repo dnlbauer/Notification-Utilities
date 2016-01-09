@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import net.headlezz.notificationlogger.createnotification.NotificationCreationFragment;
 import net.headlezz.notificationlogger.logger.LoggerUtils;
 import net.headlezz.notificationlogger.notificationlist.NotificationListFragment;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);

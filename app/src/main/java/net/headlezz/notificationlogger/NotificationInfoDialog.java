@@ -2,6 +2,7 @@ package net.headlezz.notificationlogger;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Spanned;
@@ -47,5 +48,11 @@ public class NotificationInfoDialog extends AlertDialog implements DialogInterfa
             if(!PackageUtils.showAppInfoActivity(getContext(), mNotification.packageName))
                 Toast.makeText(getContext(), R.string.notification_info_dialog_app_info_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Analytics.trackEvent(Analytics.ACTION_NOTIFICATION_DETAILS_SHOWN);
     }
 }

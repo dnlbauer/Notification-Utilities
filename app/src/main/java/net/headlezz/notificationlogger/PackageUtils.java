@@ -63,6 +63,7 @@ public class PackageUtils {
             intent.setData(Uri.fromParts("package", packageName, null));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             context.startActivity(intent);
+            Analytics.trackEvent(Analytics.ACTION_APP_INFO_OPENED);
             return true;
         } catch ( ActivityNotFoundException e ) {
             Timber.e("Failed to open app info", e);
