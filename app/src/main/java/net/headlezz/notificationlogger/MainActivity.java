@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.headlezz.notificationlogger.createnotification.NotificationCreationFragment;
 import net.headlezz.notificationlogger.logger.LoggerUtils;
 import net.headlezz.notificationlogger.notificationlist.NotificationListFragment;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Bind(R.id.main_menu_fab_add_notification)
     FloatingActionButton mFAB;
+
+    @Bind(R.id.adView)
+    AdView mAdView;
 
     SharedPreferences mSharedPrefs;
 
@@ -57,6 +63,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     .add(R.id.main_menu_fragment_container, new NotificationListFragment())
                     .commit();
         }
+        setupAdView();
+    }
+
+    private void setupAdView() {
+        AdRequest req = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(req);
     }
 
     @Override
